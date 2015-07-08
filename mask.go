@@ -2,7 +2,7 @@ package idmask
 
 import "fmt"
 
-var MaxID uint64 = 150
+var MaxID uint64 = 256
 
 func Mask(ids []uint64) []uint64 {
 	mask := make([]uint64, uint64(MaxID)/64+1)

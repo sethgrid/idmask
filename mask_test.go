@@ -29,12 +29,26 @@ func TestIDMaskLarger(t *testing.T) {
 	bits := Mask(originalIDs)
 	restoredIDs := Unmask(bits)
 
-	if len(bits) != 3 {
-		t.Errorf("got %d bit pools, want %d", len(bits), 3)
+	if len(bits) != 5 {
+		t.Errorf("got %d bit pools, want %d", len(bits), 5)
 	}
 
 	if got, want := restoredIDs, originalIDs; !listEqual(got, want) {
 		t.Errorf("got %v, want %v", restoredIDs, originalIDs)
+	}
+}
+
+func TestExhaustive(t *testing.T) {
+	allNumbers := make([]uint64, 201)
+	for i := 0; i <= 200; i++ {
+		allNumbers[i] = uint64(i)
+	}
+
+	encoded := Mask(allNumbers)
+	decoded := Unmask(encoded)
+
+	if got, want := decoded, allNumbers; !listEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }
 
