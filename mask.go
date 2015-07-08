@@ -5,18 +5,17 @@ import "fmt"
 var MaxID uint64 = 256
 
 func Mask(ids []uint64) []uint64 {
-	mask := make([]uint64, uint64(MaxID)/64+1)
+	buckets := make([]uint64, uint64(MaxID)/64+1)
 	for _, id := range ids {
-		mask[id/64] = setBit(mask[id/64], id%64)
+		buckets[id/64] = setBit(buckets[id/64], id%64)
 	}
-	return mask
+	return buckets
 }
 
-func Unmask(n []uint64) []uint64 {
+func Unmask(buckets []uint64) []uint64 {
 	var ids []uint64
 
-	// not using 0 because this use case is for ids, and id 0 is just silly.
-	for i, idPool := range n {
+	for i, idPool := range buckets {
 		for j := uint64(0); j < MaxID; j++ {
 			if hasBit(idPool, j) {
 				ids = append(ids, j+uint64(i*64))
