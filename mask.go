@@ -2,6 +2,7 @@ package idmask
 
 import "fmt"
 
+// set to this value to to have some cap. could set this to max uint64-1
 var MaxID uint64 = 256
 
 func Mask(ids []uint64) []uint64 {
@@ -16,7 +17,7 @@ func Unmask(buckets []uint64) []uint64 {
 	var ids []uint64
 
 	for i, idPool := range buckets {
-		for j := uint64(0); j < MaxID; j++ {
+		for j := uint64(0); j < 64; j++ {
 			if hasBit(idPool, j) {
 				ids = append(ids, j+uint64(i*64))
 			}
